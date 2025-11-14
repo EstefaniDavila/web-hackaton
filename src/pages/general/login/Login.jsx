@@ -1,0 +1,83 @@
+import React, { useState, useContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { FormLogin } from './components/FormLogin';
+import UserContext from './../../../providers/UserContext';
+import ViteLogo from './../../../assets/react.svg';
+
+const Login = () => {
+  const [credentials, setCredentials] = useState({ document_number: '', password: '' });
+
+  const { loginUser } = useContext(UserContext);
+
+  return (
+    <>
+      <div className='container relative grid h-svh flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0'>
+        <div className='relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex'>
+          <div className='absolute inset-0 bg-zinc-900' />
+          <div className='relative z-20 flex items-center text-lg font-medium'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='mr-2 h-6 w-6'
+            >
+              <path d='M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3' />
+            </svg>
+            HACK
+          </div>
+          <img
+            src='https://www.zarla.com/images/zarla-logro-comercial-1x1-2400x2400-20220202-www4ychwq9jwvrchmkf4.png?crop=1:1,smart&width=250&dpr=2'
+            className='relative m-auto w-full'
+            width={301}
+            height={60}
+            alt='Vite'
+          />
+          <div className='relative z-20 mt-auto'>
+            <blockquote className='space-y-2'>
+              <footer className='text-sm'>HACK</footer>
+            </blockquote>
+          </div>
+        </div>
+
+        <div className='lg:p-8'>
+          <div className='mx-auto flex w-full flex-col justify-center space-y-2 sm:w-[350px]'>
+            <div className='flex flex-col space-y-2 text-left'>
+              <h1 className='text-2xl font-semibold tracking-tight'>Iniciar Sesión</h1>
+              <p className='text-sm text-muted-foreground'>
+                Ingrese su número de documento para acceder al panel de control.
+              </p>
+            </div>
+            <FormLogin
+              credentials={credentials}
+              setCredentials={setCredentials}
+              loginUser={loginUser}
+            />
+            <p className='px-8 text-center text-sm text-muted-foreground'>
+              Al hacer clic, usted acepta{' '}
+              <a
+                href='/terms'
+                className='underline underline-offset-4 hover:text-primary'
+              >
+                los Términos de Servicio
+              </a>{' '}
+              y{' '}
+              <a
+                href='/privacy'
+                className='underline underline-offset-4 hover:text-primary'
+              >
+                las Políticas de Privacidad
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Login;

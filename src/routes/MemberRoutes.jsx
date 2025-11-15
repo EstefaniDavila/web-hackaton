@@ -16,7 +16,11 @@ const memberRoutes = [
         errorElement: <GeneralError />,
         children: [
           { index: true, lazy: async () => ({ Component: (await import('./../pages/panels/member/dashboard/Dashboard')).default }) },
-            {
+           {
+                      path: 'Candidatos',lazy: async () => ({ Component: (await import('../pages/panels/member/candidant/candidant')).default }),
+                      errorElement: <GeneralError />,
+                    },   
+          {
             path: 'ajustes',
             lazy: async () => ({ Component: (await import('../pages/general/settings')).default }),
             errorElement: <GeneralError />,

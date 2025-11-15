@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import DataTable from '@/components/custom/data_table'
-import columns from '@/services/products/columns'
+import columns from '@/services/polities/columns'
 import useEntityMutation from '@/hooks/useEntityMutation'
 
 const TableProducts = ({ handleOpenModal, data, fetchData, pagination, setPagination, setProduct, setTypeModal, totalPages, search, setSearch, searchFields, setSearchFields }) => {

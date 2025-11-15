@@ -4,12 +4,15 @@ import { useConfirm } from "@/components/custom/alert"
 import { LuAlertOctagon } from "react-icons/lu";
 
 const backend_host = import.meta.env.VITE_BACKEND_HOST
+console.log(backend_host)
 
 const useCrud = (endpoint) => {
   const confirm = useConfirm()
 
   const getModel = async (_endpoint = endpoint) => {
+    console.log(endpoint)
     try {
+
       const response = await axios.get(`${backend_host}${_endpoint}`)
       return response.data
     } catch (error) {

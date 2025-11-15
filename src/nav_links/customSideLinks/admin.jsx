@@ -1,9 +1,9 @@
 import {
   TbLayoutDashboard,
   TbSettings,
-  TbBook,
 } from "react-icons/tb"
-
+import { GrSelection } from "react-icons/gr"
+import { BsFillCalendarEventFill } from "react-icons/bs";
 
 
 export const adminLinks = [
@@ -20,5 +20,17 @@ export const adminLinks = [
     label: '',
     href: '/ajustes',
     icon: <TbSettings size={18} />,
+  },
+  {
+    title: 'Partidos',
+    label: '',
+    href: '/partidos',
+    icon: <GrSelection  size={18} />,
+  },
+  {
+    title: 'Eventos',
+    label: '',
+    href: '/eventos',
+    icon: <BsFillCalendarEventFill  size={18} />,
   },
 ]

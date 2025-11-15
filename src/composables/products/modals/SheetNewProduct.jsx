@@ -1,17 +1,17 @@
 import React, { useState } from "react"
 import EntityFormMultiStep from "@/services/general/EntityFormMultiStep"
-import ProductFormMultiStep from "@/services/products/ProductFormWithFiles"
+import ProductFormMultiStep from "@/services/polities/ProductFormWithFiles"
 import { useProductSteps } from '@/composables/products/hooks/useProductsSteps'
 import useEntityMutation from "@/hooks/useEntityMutation"
 import useCrud from "@/hooks/useCrud"
 
-const SheetNewProduct = ({ isOpen, handleClose, typeModal, reload, options }) => {
+const SheetNewPolities = ({ isOpen, handleClose, typeModal, reload, options }) => {
   const { steps, initialDataProduct, loading } = useProductSteps()
   const mutation = useEntityMutation({entityName: 'product'})
 
   const handleSubmit = async (formData) => {
     mutation.mutate(
-      { action: 'create', entity: formData, endpoint: 'api/v1/admin/products'},
+      { action: 'create', entity: formData, endpoint: 'api/v1/admin/political_parties'},
       handleClose(),
     )
   }
@@ -38,4 +38,4 @@ const SheetNewProduct = ({ isOpen, handleClose, typeModal, reload, options }) =>
 
 }
 
-export default SheetNewProduct
+export default SheetNewPolities

@@ -16,7 +16,15 @@ const adminRoutes = [
         errorElement: <GeneralError />,
         children: [
           { index: true, lazy: async () => ({ Component: (await import('./../pages/panels/admin/dashboard/Dashboard')).default }) },
-            {
+          {
+            path: 'Partidos',lazy: async () => ({ Component: (await import('../pages/panels/admin/polities/Polities')).default }),
+            errorElement: <GeneralError />,
+          }, 
+          {
+            path: 'Eventos',lazy: async () => ({ Component: (await import('../pages/panels/admin/events/events')).default }),
+            errorElement: <GeneralError />,
+          },  
+          {
             path: 'ajustes',
             lazy: async () => ({ Component: (await import('../pages/general/settings')).default }),
             errorElement: <GeneralError />,
@@ -26,6 +34,7 @@ const adminRoutes = [
               { path: 'apariencia', lazy: async () => ({ Component: (await import('../pages/general/settings/appearance')).default }) },
               { path: 'notificaciones', lazy: async () => ({ Component: (await import('../pages/general/settings/notifications')).default }) },
               { path: 'display', lazy: async () => ({ Component: (await import('../pages/general/settings/display')).default }) },
+            
             ],
           },
         ],

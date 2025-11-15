@@ -1,5 +1,5 @@
 import React, {useState, useMemo} from "react"
-import ProductFormMultiStep from "@/services/products/ProductFormWithFiles"
+import ProductFormMultiStep from "@/services/polities/ProductFormWithFiles"
 import { useProductSteps } from "../hooks/useProductsSteps"
 import useEntityMutation from "@/hooks/useEntityMutation"
 

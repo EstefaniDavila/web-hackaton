@@ -11,7 +11,7 @@ export const adminLinks = [
   {
     title: 'Dashboard',
     label: '',
-    href: '/dashboard',
+    href: '/',
     icon: <TbLayoutDashboard size={18} />,
   },
  

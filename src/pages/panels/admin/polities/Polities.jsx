@@ -59,7 +59,7 @@ const Polities = () => {
           <Button
             variant="outline"
             onClick={() => handleOpenModal("new")}
-            className="bg-green-200 text-black hover:bg-green-500"
+            className="bg-amberCustom text-black hover:bg-amber-600"
           >
             <TbPlus />
           </Button>
@@ -70,6 +70,8 @@ const Polities = () => {
           fetchData={refetchPolitical_parties}
           data={Political_partiesData?.rows || []}
           pagination={pagination}
+          setPolitical_parties={setPolity}
+          setTypeModal={setTypeModal}
           setPagination={setPagination}
           totalPages={totalPages}
           search={search}
@@ -85,15 +87,6 @@ const Polities = () => {
           handleClose={handleCloseModal}
           typeModal={typeModal}
           reload={refetchPolitical_parties}
-        />
-      )}
-
-      {typeModal === "show" && (
-        <SheetShowPolities
-          isOpen={isModalOpen}
-          handleClose={handleCloseModal}
-          typeModal={typeModal}
-          polity={polity}
         />
       )}
 

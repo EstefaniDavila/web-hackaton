@@ -10,8 +10,8 @@
 }
 
 .light {
-  --text-color: black;
-  --background-color: white;
+  --text-color: #000B29;
+  --background-color: #F8F5F2;
 }
 
 body, input, select, textarea, label {

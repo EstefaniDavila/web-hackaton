@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
 export const usePolitiesSteps = () => {
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10 
+  })
+  const [search, setSearch] = useState("")
+  // const { data: members } = useFetchMembers(pagination, search)
 //teps
   const steps = [
     {
@@ -13,6 +19,7 @@ export const usePolitiesSteps = () => {
         { id: 'description', label: 'Descripción:', type: 'text' },
         { id: 'hq_address', label: 'Dirección:', type: 'text' },
         { id: 'logo', label: 'Logo:', type: 'file', accept: 'image/*' },
+        { id: 'plan_pdf', label: 'Plan de Gobierno:', type: 'file', accept: 'pdf/*' },
       ],
     },
     {
@@ -30,7 +37,19 @@ export const usePolitiesSteps = () => {
       title: 'Step 3: Otros Datos',
       description: 'Definir si el partido esta activo y otros datos',
       fields: [
-         { id: 'political_party', label: 'Presidente', type: 'text', required: true },
+        {
+          id: 'member_id',
+          label: 'Presidente:',
+          type: 'select',
+          required: true,
+          options: [
+              { value: "2525bc4c-5076-44a1-80d2-ff5b194c87cd", label: 'El presi fake xd' },
+            // members?.rows?.map((mem) => ({
+            //   value: mem.id,
+            //   label: mem.full_name,
+            // })) || [],
+            ],
+        },
 
         { id: 'founded_at', label: 'Fecha de Fundación:', type: 'date', required: true },
         {
@@ -42,8 +61,6 @@ export const usePolitiesSteps = () => {
             { value: 1, label: 'Activo' },
           ],
         },
-
-        { id: 'plan_pdf', label: 'Plan:', type: 'file', accept: 'file/*' },
       ],
     },
   ];
@@ -52,6 +69,8 @@ export const usePolitiesSteps = () => {
     name: "",
     website: "",
     acronym: "",
+    logo: null,
+    plan_pdf: null,
     hq_address: "",
     facebook_url: "",
     twitter_url: "",
@@ -60,7 +79,8 @@ export const usePolitiesSteps = () => {
     tiktok_url: "",
     description: "",
     founded_at: "",
-    political_party:"09148b23-b362-4086-866c-bb4a1958f377"
+    member_id: "",
+    status: 1,
   };
 
   return { steps, initialDataPolitical_parties };

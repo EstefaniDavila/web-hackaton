@@ -32,6 +32,9 @@ const useEntityMutation = ({ entityName }) => {
           }
         }
       }
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(key, value);
+      // }
 
       switch (action) {
         case "create":

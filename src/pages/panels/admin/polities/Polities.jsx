@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { TbPlus } from 'react-icons/tb'
+import { TbPlus } from 'react-icons/tb' 
 
 import useFetchPolities from '@/composables/polities/hooks/useFetchPolities'
 import TablePolities from '@/composables/polities/tables/GeneralPolities'

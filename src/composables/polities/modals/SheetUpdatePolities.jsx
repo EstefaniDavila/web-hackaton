@@ -1,6 +1,6 @@
 import React, { useMemo } from "react"
 import ProductFormMultiStep from "@/services/polities/ProductFormWithFiles"
-import { usePolitiesSteps } from "../hooks/usePolitiesSteps"
+import { usePolitiesSteps } from "../hooks/usePolitiesSteps" 
 import useEntityMutation from "@/hooks/useEntityMutation"
 
 const SheetUpdatePolities = ({ isOpen, handleClose, typeModal, reload, options, product }) => {

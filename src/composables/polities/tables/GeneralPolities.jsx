@@ -26,7 +26,7 @@ const TablePolities = ({
         action: 'delete',
         endpoint: `api/v1/admin/political_parties/${id}`
       })
-      fetchData()   // refrescar tabla
+      fetchData()  
     } catch (error) {
       console.error('Error deleting political_parties', error)
     }

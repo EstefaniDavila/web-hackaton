@@ -17,7 +17,7 @@ export default function AddEvent({ open, onClose, onAddEvent }) {
       place,
     });
 
-    onClose(); // cerrar modal
+    onClose(); // cerrar modal eventos
   };
 
   return (

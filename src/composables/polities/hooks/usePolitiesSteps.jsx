@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export const usePolitiesSteps = () => {
-
+//teps
   const steps = [
     {
       title: 'Paso 1: Información general del Partido',

@@ -14,7 +14,7 @@ const SheetNewPolities = ({ isOpen, handleClose, typeModal, reload, options }) =
       { action: 'create', entity: formData, endpoint: '/api/v1/admin/political_parties'},
       handleClose(),
     )
-  }
+  }//new 
 
   const handleChange = (name, value) => {
     setFormData((prevData) => {

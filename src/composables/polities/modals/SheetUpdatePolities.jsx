@@ -7,7 +7,7 @@ const SheetUpdatePolities = ({ isOpen, handleClose, typeModal, reload, options, 
 
   const { steps, initialDataPolities } = usePolitiesSteps()
 
-  // Fusiona datos iniciales con lo que trae el partido
+  // Fusiona datos iniciales con lo que trae el partido prueb
   const mergedData = useMemo(() => {
     if (!product) return initialDataPolities
     return Object.fromEntries(

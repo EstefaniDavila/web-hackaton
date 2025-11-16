@@ -14,7 +14,6 @@ export const adminLinks = [
     href: '/dashboard',
     icon: <TbLayoutDashboard size={18} />,
   },
- 
   {
     title: 'Ajustes',
     label: '',
@@ -25,6 +24,12 @@ export const adminLinks = [
     title: 'Partidos',
     label: '',
     href: '/partidos',
+    icon: <GrSelection  size={18} />,
+  },
+  {
+    title: 'Publicaciones',
+    label: '',
+    href: '/publicaciones',
     icon: <GrSelection  size={18} />,
   },
   {

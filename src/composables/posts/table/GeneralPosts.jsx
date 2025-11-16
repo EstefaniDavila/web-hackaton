@@ -6,6 +6,7 @@ import useEntityMutation from '@/hooks/useEntityMutation'
 const TablePosts = ({ handleOpenModal, data, fetchData, pagination, setPagination, setPost, setTypeModal, totalPages, search, setSearch, searchFields, setSearchFields }) => {
   const {mutateAsync} = useEntityMutation({entityName: 'post'})
 
+  console.log(data, "pots")
   const handleDelete = async (id) => {
     try {
       await mutateAsync({

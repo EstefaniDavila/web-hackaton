@@ -4,16 +4,23 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, MapPin } from "lucide-react";
 import AddEvent from "@/composables/events/Modals/addevents";
+import useFetchEvents from "@/composables/events/hooks/useFetchEvents";
+
 
 export default function MeetingsCalendar() {
   const [date, setDate] = useState(new Date());
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [typeModal, setTypeModal] = useState("")
+  const [event, setEvent] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10
+  })
+  const [search, setSearch] = useState("")
+  const [searchFields, setSearchFields] = useState(["title"])
 
-  const [events, setEvents] = useState([ ]);
-
-  const handleAddEvent = (newEvent) => {
-    setEvents(prev => [...prev, newEvent]);
-  };
+  const searchParams = {search, fields: searchFields.join(',') }
+  const { data: eventsData, refetch: refetchEvents } = useFetchEvents(pagination, searchParams)
 
   return (
     <>
@@ -25,7 +32,7 @@ export default function MeetingsCalendar() {
           </h2>
 
           <div className="space-y-6">
-            {events.map((m, i) => (
+            {eventsData?.events?.map((m, i) => (
               <Card key={i} className="bg-[#1e293b] border-none text-white">
                 <CardContent className="flex gap-4 p-5">
                   <div className="flex-1 space-y-1">
@@ -70,7 +77,6 @@ export default function MeetingsCalendar() {
       <AddEvent
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onAddEvent={handleAddEvent}
       />
     </>
   );

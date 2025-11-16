@@ -8,7 +8,6 @@ const useFetchSelectMembers = (pagination, searchParams) => {
     const [_key, { pageIndex, pageSize, search, fields }] = queryKey
     const searchQuery = search ? `&search_params=${search}&search_fields=${fields}` : ''
     const response = await getSelectMembers(`/api/v1/admin/select_member?page=${pageIndex + 1}&per_page=${pageSize}${searchQuery}`)
-    console.log("Formatted Members: ", response)
     return response
   }
   return useQuery({

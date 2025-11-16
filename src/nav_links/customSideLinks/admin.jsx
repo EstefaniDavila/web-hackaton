@@ -5,21 +5,8 @@ import {
 import { GrSelection } from "react-icons/gr"
 import { BsFillCalendarEventFill } from "react-icons/bs";
 
-
 export const adminLinks = [
-
-  {
-    title: 'Dashboard',
-    label: '',
-    href: '/',
-    icon: <TbLayoutDashboard size={18} />,
-  },
-  {
-    title: 'Ajustes',
-    label: '',
-    href: '/ajustes',
-    icon: <TbSettings size={18} />,
-  },
+  
   {
     title: 'Partidos',
     label: '',
@@ -30,12 +17,18 @@ export const adminLinks = [
     title: 'Publicaciones',
     label: '',
     href: '/publicaciones',
-    icon: <GrSelection  size={18} />,
+    icon: <TbLayoutDashboard  size={18} />,
   },
   {
     title: 'Eventos',
     label: '',
     href: '/eventos',
     icon: <BsFillCalendarEventFill  size={18} />,
+  },
+  {
+    title: 'Ajustes',
+    label: '',
+    href: '/ajustes',
+    icon: <TbSettings size={18} />,
   },
 ]

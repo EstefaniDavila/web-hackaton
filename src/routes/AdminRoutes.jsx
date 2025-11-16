@@ -15,7 +15,7 @@ const adminRoutes = [
         },
         errorElement: <GeneralError />,
         children: [
-          { index: true, lazy: async () => ({ Component: (await import('./../pages/panels/admin/dashboard/Dashboard')).default }) },
+          { index: true, lazy: async () => ({ Component: (await import('./../pages/panels/admin/polities/Polities')).default }) },
           {
             path: 'Partidos',lazy: async () => ({ Component: (await import('../pages/panels/admin/polities/Polities')).default }),
             errorElement: <GeneralError />,

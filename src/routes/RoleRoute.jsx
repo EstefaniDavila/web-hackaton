@@ -12,8 +12,6 @@ const RoleRoute = ({ allowedRoles = [] }) => {
     rol = storedUser?.member_role; 
   }
 
-  console.log("allowedRoles:", allowedRoles);
-  console.log("rol detectado:", rol);
 
   if (!rol || !allowedRoles.includes(rol)) {
     console.log("❌ Rol no autorizado");

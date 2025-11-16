@@ -1,75 +1,90 @@
-import React, {useState} from 'react'
-import Modal from '@/components/custom/modal'
-import useEntityMutation from '@/hooks/useEntityMutation'
-import { Input } from '@/components/ui/input'
-import { handleChangeFD, handleFileFD} from '@/services/general/handlers'
+import React, { useState } from "react"
+import Modal from "@/components/custom/modal"
+import useEntityMutation from "@/hooks/useEntityMutation"
+import { Input } from "@/components/ui/input"
 
 const ModalNewPost = ({ isOpen, handleClose, fetchData }) => {
-  const [formData] = useState(() => {
-    const fd = new FormData()
-    return fd;
-  })
-  const [formValues, setFormValues] = useState(formData)
-  const mutation = useEntityMutation({entityName: 'post'})
+  const { mutateAsync } = useEntityMutation({ entityName: "post" })
 
-  const handleSubmit = async() => {
-    mutation.mutate(
-      { action: 'create', entity: formData, endpoint: '/api/v1/admin/posts'},
-      handleClose(),
-    )
+  const [values, setValues] = useState({
+    title: "",
+    body: "",
+    source: null
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setValues((prev) => ({ ...prev, [name]: value }))
   }
 
-  const onChangeExtra = (name, value) => {
+  const handleFile = (e) => {
+    setValues((prev) => ({ ...prev, source: e.target.files[0] }))
+  }
+
+  const handleSubmit = async () => {
+    const fd = new FormData()
+    fd.append("title", values.title)
+    fd.append("body", values.body)
+    if (values.source) fd.append("source", values.source)
+
+    try {
+      await mutateAsync({
+        action: "create",
+        entity: fd,
+        endpoint: "/api/v1/admin/posts_new",
+      })
+
+      fetchData()
+      handleClose()
+    } catch (err) {
+      console.error("Error creando post", err)
+    }
   }
 
   return (
-    <div>
-      {isOpen && (
-        <Modal
-          open={isOpen}
-          setOpen={handleClose}
-          title="Crear Publicacion"
-          description="Rellena el formulario para crear una nueva publicacion."
-          size="md"
-          callBack={handleSubmit}
-        >
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium py-2">Título</label>
-                <Input
-                  type="text"
-                  name="title"
-                  value={formData.tittle}
-                  onChange={(e) => handleChangeFD(e, formData, onChangeExtra)}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium py-2">Descripción de la publicacion</label>
-                <Input
-                  type="text"
-                  name="body"
-                  value={formData.body}
-                  onChange={(e) => handleChangeFD(e, formData, onChangeExtra)}
-                />
-              </div>
-              <div>
-                <label className="block mb-4 font-bold">
-                  Contenido Multimedia
-                  <Input
-                    type="file"
-                    name="source"
-                    accept='image/*'
-                    onChange={(e) => handleFileFD(e, formData, setFormValues)}
-                    className="w-full p-2 mt-1 border rounded font-normal"
-                  />
-                </label>
-              </div>
-            </div>
-          </form>
-        </Modal>
-      )}
-    </div>
+    isOpen && (
+      <Modal
+        open={isOpen}
+        setOpen={handleClose}
+        title="Crear Publicación"
+        description="Rellena el formulario para crear una nueva publicación."
+        size="md"
+        callBack={handleSubmit}   // 🔥 AHORA ES SEGURO
+      >
+        <div className="space-y-4">
+
+          <div>
+            <label className="block text-sm font-medium py-2">Título</label>
+            <Input
+              type="text"
+              name="title"
+              value={values.title}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium py-2">Descripción</label>
+            <Input
+              type="text"
+              name="body"
+              value={values.body}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium py-2">Contenido Multimedia</label>
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleFile}
+            />
+          </div>
+
+        </div>
+      </Modal>
+    )
   )
 }
 

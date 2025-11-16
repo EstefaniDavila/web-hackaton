@@ -5,7 +5,7 @@ import { TbPlus } from 'react-icons/tb'
 
 import useFetchPosts from '@/composables/posts/hooks/useFetchPosts'
 import TablePosts from '@/composables/posts/table/GeneralPosts'
-
+import ModalEditPost from '@/composables/posts/modals/modalEdit'
 import ModalNewPost from '@/composables/posts/modals/modalNewPost'
 // import SheetNewPolities from '@/composables/polities/modals/SheetNewPolities'
 // import SheetShowPolities from '@/composables/polities/modals/SheetShowPolities'
@@ -69,7 +69,7 @@ const Post = () => {
         <TablePosts
           handleOpenModal={handleOpenModal}
           fetchData={refetchPosts}
-          data={PostsData?.rows || []}
+          data={PostsData?.posts || []}
           pagination={pagination}
           setPost={setPost}
           setTypeModal={setTypeModal}
@@ -91,15 +91,14 @@ const Post = () => {
         />
       )}
 
-      {/* {typeModal === "edit" && (
-        <SheetUpdatePolities
+      {typeModal === "edit" && (
+        <ModalEditPost
           isOpen={isModalOpen}
           handleClose={handleCloseModal}
-          typeModal={typeModal}
-          polity={polity}
-          reload={refetchPolitical_parties}
+          fetchData={refetchPosts}    
+          post={post}
         />
-      )} */}
+      )}
     </div>
   )
 }

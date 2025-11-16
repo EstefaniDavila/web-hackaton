@@ -25,7 +25,6 @@ const Candidant = () => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log("DATA:", data)
       setParties(data)
     })
     .catch(err => console.log("Error cargando partidos:", err))

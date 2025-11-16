@@ -40,7 +40,11 @@ const Modal = ({ open, setOpen, size, title, children, callBack, description }) 
           {children}
           <DialogFooter className="sm:justify-start">
             <DialogClose asChild>
-              <Button type="button" variant="secondary">
+              <Button 
+                type="button" 
+                variant="secondary"
+                className="text-foreground"
+              >
                 Cerrar
               </Button>
             </DialogClose>
@@ -49,7 +53,7 @@ const Modal = ({ open, setOpen, size, title, children, callBack, description }) 
                 <Button
                   type="button"
                   onClick={(e) => handleSubmit(e)}
-                  variant="success"
+                  variant="variant"
                 >
                   Guardar
                 </Button>

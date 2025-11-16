@@ -9,6 +9,8 @@ import { UserNav } from './user-nav'
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
 
 export default function AppShell() {
+  const user = JSON.parse(localStorage.getItem("user")) 
+
 
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
   return (

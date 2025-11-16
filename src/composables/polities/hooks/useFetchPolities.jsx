@@ -9,7 +9,6 @@ const useFetchPolities = (pagination, searchParams) => {
     const searchQuery = search ? `&search_params=${search}&search_fields=${fields}` : ''
     
     const response = await getPolitical_parties(`/api/v1/admin/political_parties?page=${pageIndex + 1}&per_page=${pageSize}${searchQuery}`)
-    console.log(response)
     return {
       rows: response.political_parties,
       rowCount: response.total_political_parties,

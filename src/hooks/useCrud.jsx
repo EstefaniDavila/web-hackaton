@@ -4,15 +4,12 @@
 // import { LuAlertOctagon } from "react-icons/lu";
 
 // const backend_host = import.meta.env.VITE_BACKEND_HOST
-// console.log(backend_host)
 
 // const useCrud = (endpoint) => {
 //   const confirm = useConfirm()
 
 //   const getModel = async (_endpoint = endpoint) => {
-//     console.log(endpoint)
 //     try {
-
 //       const response = await axios.get(`${backend_host}${_endpoint}`)
 //       return response.data
 //     } catch (error) {
@@ -108,7 +105,6 @@
 //   }
 // }
 
-// export default useCrud
 import React from "react"
 import api from "./api";
 import { useConfirm } from "@/components/custom/alert"
@@ -128,37 +124,19 @@ const useCrud = (endpoint) => {
   }
 
   const deleteModel = async (_endpoint = endpoint) => {
-    const confirmation = await confirm({
-      title: "Eliminar item",
-      body: "¿Estás seguro de que quieres eliminar este registro? No podrás recuperarlo una vez eliminado.",
-      cancelButton: "Cancelar",
-      actionButton: "Eliminar!",
-      icon: <LuAlertOctagon className="text-red-500 h-16 w-16 mx-auto mb-4" />,
-    })
-
-    if (confirmation) {
-      try {
-        const response = await api.delete(_endpoint)
-        return response.data
-      } catch (error) {
-        const backendMessage = error.response.data?.message || "Error desconocido"
-        console.error('Error al eliminar el registro:', backendMessage)
-        throw error
-      }
+    
+    try {
+      const response = await api.delete(_endpoint)
+      return response.data
+    } catch (error) {
+      const backendMessage = error.response.data?.message || "Error desconocido"
+      console.error('Error al eliminar el registro:', backendMessage)
+      throw error
     }
-  }
+}
 
   const insertModel = async (_data, _endpoint = endpoint) => {
-    const confirmation = await confirm({
-      title: "Registrar nuevo registro",
-      body: "¿Estás seguro de que quieres ingresar este registro?",
-      cancelButton: "Cancelar",
-      actionButton: "Registrar",
-      icon: <LuAlertOctagon className="text-red-500 h-16 w-16 mx-auto mb-4" />,
-    })
-
-    if (!confirmation) throw new Error('Acción cancelada por el usuario')
-
+    
     try {
       const response = await api.post(_endpoint, _data)
       return response.data
@@ -175,16 +153,7 @@ const useCrud = (endpoint) => {
   }
 
   const updateModel = async (_data, _endpoint = endpoint) => {
-    const confirmation = await confirm({
-      title: "Actualizar el registro",
-      body: "¿Estás seguro de que quieres actualizar este registro?",
-      cancelButton: "Cancelar",
-      actionButton: "Actualizar",
-      icon: <LuAlertOctagon className="text-red-500 h-16 w-16 mx-auto mb-4" />,
-    })
-
-    if (!confirmation) throw new Error('Acción cancelada por el usuario')
-
+   
     try {
       const response = await api.put(_endpoint, _data)
       return response.data

@@ -8,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { MotionConfig, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Sufragio() {
   const steps = [
@@ -32,12 +32,14 @@ export default function Sufragio() {
 
   return (
     <div className="w-full p-8 text-gray-900">
+      {/* TITLE */}
       <h1 className="text-3xl font-bold text-indigo-700 text-center mb-4">
         ¿Cómo debo sufragar?
       </h1>
 
       <Separator className="mb-8 bg-indigo-300" />
 
+      {/* MAIN GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* TEXT SECTION */}
         <div className="space-y-6">
@@ -89,6 +91,24 @@ export default function Sufragio() {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
+        </div>
+      </div>
+
+      {/* VIDEO SECTION */}
+      <div className="mt-16">
+        <h2 className="text-3xl font-bold text-indigo-700 text-center mb-6">
+          CÉDULA ELECTORAL
+        </h2>
+
+        <div className="flex justify-center">
+          <iframe width="560" 
+          height="315" 
+          src="https://www.youtube.com/embed/1l0783CZRWA?si=qCk0d5gAOpH4w-gE" 
+          title="YouTube video player" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+           referrerpolicy="strict-origin-when-cross-origin" 
+           allowfullscreen></iframe>
         </div>
       </div>
     </div>

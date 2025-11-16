@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+
+ const steps = [
+    {
+      title: "Trabajo por la seguridad ciudadana",
+    },
+    {
+      title: "Impulso al desarrollo económico",
+    },
+    {
+      title: "Mejoras en educación y salud",
+    },
+  ];
 
 const SimpleAccordionItem = ({ title, children }) => {
   const [open, setOpen] = useState(false);
@@ -16,7 +29,7 @@ const SimpleAccordionItem = ({ title, children }) => {
   );
 };
 
-const PoliticalPartie = () => {
+export default function PoliticalPartie() {
   const { id } = useParams();
   const { state: partyInfo } = useLocation();
 
@@ -45,7 +58,6 @@ const PoliticalPartie = () => {
       }).then((r) => r.json()),
     ])
       .then(([presidents, web]) => {
-        // lo que sí devuelve tu API:
         const fullData = {
           presidential: presidents.presidential || [],
           vice_1: presidents.vice_1 || [],
@@ -58,7 +70,6 @@ const PoliticalPartie = () => {
 
         setParty(fullData);
 
-        // aplanar todo para "otras candidaturas"
         const all = [];
         Object.keys(fullData).forEach((key) => {
           fullData[key]?.forEach((cand) => {
@@ -80,7 +91,6 @@ const PoliticalPartie = () => {
 
   return (
     <div className="p-6">
-
       {/* ENCABEZADO */}
       <div className="flex items-center gap-4 mb-6">
         <img
@@ -126,8 +136,6 @@ const PoliticalPartie = () => {
       <SimpleAccordionItem title="Otras Candidaturas">
         {/* FILTROS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-
-          {/* CARGO */}
           <select
             className="border p-2 rounded-md"
             value={cargo}
@@ -139,7 +147,6 @@ const PoliticalPartie = () => {
             <option value="andean_parliament">Parlamento Andino</option>
           </select>
 
-          {/* DEPARTAMENTO */}
           <select
             className="border p-2 rounded-md"
             value={departamento}
@@ -189,8 +196,34 @@ const PoliticalPartie = () => {
             ))}
         </div>
       </SimpleAccordionItem>
+
+      {/* PLANES DE GOBIERNO */}
+      <SimpleAccordionItem title="Planes de Gobierno">
+        <iframe
+          src={partyInfo?.pdf_url || "https://perulibre.pe/plan-bicentenario.pdf"}
+          className="w-full h-[600px] border rounded-lg"
+        />
+      </SimpleAccordionItem>
+
+      {/* PROPUESTAS DE MEJORA */}
+      <SimpleAccordionItem title="Compromisos del Candidato">
+        <ul className="space-y-4 text-lg">
+                    {steps.map((s, i) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="flex items-center gap-3"
+                      >
+                        <span className="w-8 h-8 flex items-center justify-center bg-indigo-600 text-white font-bold rounded-full">
+                          {i + 1}
+                        </span>
+                        {s.title}
+                      </motion.li>
+                    ))}
+                  </ul>
+      </SimpleAccordionItem>
     </div>
   );
-};
-
-export default PoliticalPartie;
+}

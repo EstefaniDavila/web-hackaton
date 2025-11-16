@@ -40,24 +40,28 @@ export default function BeautifulCountdown() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center gap-4">
-      <h2 className="font-semibold text-lg">LAS ELECCIONES SERÁN EN:</h2>
+    <div className="w-full flex flex-col items-center gap-3">
+      <h2 className="font-semibold text-base sm:text-lg text-center">
+        LAS ELECCIONES SERÁN EN:
+      </h2>
 
-      <div className="flex gap-4">
+      {/* Contenedor responsive */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
         <TimeBox number={timeLeft.months} label="Meses" />
         <TimeBox number={timeLeft.days} label="Días" />
         <TimeBox number={timeLeft.hours} label="Horas" />
         <TimeBox number={timeLeft.minutes} label="Minutos" />
       </div>
+
     </div>
   );
 }
 
 function TimeBox({ number, label }) {
   return (
-    <div className="flex flex-col items-center p-3 border rounded-xl shadow-sm min-w-[80px] bg-red-900 bg-opacity-50">
-      <p className="text-2xl font-bold text-white-700">{number}</p>
-      <span className="text-sm text-white-600">{label}</span>
+    <div className="flex flex-col items-center p-4 border rounded-xl shadow-sm min-w-[80px] bg-red-900 bg-opacity-50">
+      <p className="text-2xl font-bold text-white">{number}</p>
+      <span className="text-sm text-white/80">{label}</span>
     </div>
   );
 }

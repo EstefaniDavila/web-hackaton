@@ -16,7 +16,7 @@ const ModalNewEvent = ({ isOpen, handleClose }) =>{
 
   const handleSubmit = async() => {
     mutation.mutate(
-      { action: 'create', entity: formData, endpoint: 'api/v1/admin/events'},
+      { action: 'create', entity: formData, endpoint: 'api/v1/admin/events_new'},
       handleClose(),
     )
   }
@@ -45,7 +45,7 @@ const ModalNewEvent = ({ isOpen, handleClose }) =>{
               <label className='block text-sm font-medium'>Titulo</label>
               <Input
                 type="text"
-                name="title"
+                name="tittle"
                 value={formData.tittle}
                 onChange={(e)=> handleChange(e, setFormData, onChangeExtra)}
                 required
@@ -76,10 +76,10 @@ const ModalNewEvent = ({ isOpen, handleClose }) =>{
               <Select
                 value={formData.status}
                 onValueChange={(value) =>
-                  handleSelectChange("status", value, setFormData, onChangeExtra)
+                  handleSelectChange("type_member", value, setFormData, onChangeExtra)
                 }
               >
-                <SelectTrigger className="w-[200px]">
+                <SelectTrigger className="">
                   <SelectValue placeholder="Selecciona un estado" />
                 </SelectTrigger>
                 <SelectContent>

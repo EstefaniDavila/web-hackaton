@@ -32,6 +32,10 @@ const memberRoutes = [
             {
               path: 'Votaciones',lazy: async () => ({ Component: (await import('../pages/panels/member/vote/Vote')).default }),
               errorElement: <GeneralError />,
+            },
+             {
+              path: 'miembro',lazy: async () => ({ Component: (await import('../pages/panels/member/tablemember/Tablemember')).default }),
+              errorElement: <GeneralError />,
             },   
           {
             path: 'ajustes',

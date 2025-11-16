@@ -54,5 +54,10 @@ const topNav = [
     href: 'ajustes/cuenta',
     isActive: false,
   },
+  {
+    title: 'Miembro de Mesa',
+    href: 'miembro',
+    isActive: false,
+  },
 ]
 

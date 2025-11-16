@@ -59,22 +59,14 @@ export const UserNav = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link to="/ajustes">
-            <DropdownMenuItem style={{ cursor: "pointer" }}>
+          <DropdownMenuItem asChild style={{ cursor: "pointer" }}>
+            <Link to="/ajustes" className="flex items-center justify-between w-full">
               Perfil
               <DropdownMenuShortcut>
-                <IoPersonOutline style={{ fontSize: "18px" }} />
+                <IoPersonOutline className="h-4 w-4" />
               </DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
-          <Link to="/ajustes">
-            <DropdownMenuItem style={{ cursor: "pointer" }}>
-              Ajustes
-              <DropdownMenuShortcut>
-                <IoSettingsOutline style={{ fontSize: "18px" }} />
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -83,8 +75,17 @@ export const UserNav = () => {
         >
           Cerrar Sesión
           <DropdownMenuShortcut>
-            <IoLogOutOutline style={{ fontSize: "18px" }} />
+            <IoLogOutOutline className="h-4 w-4" />
           </DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild style={{ cursor: "pointer" }}>
+          <Link to="/ajustes" className="flex items-center justify-between w-full">
+            Ajustes
+            <DropdownMenuShortcut>
+              <IoSettingsOutline className="h-4 w-4" />
+            </DropdownMenuShortcut>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

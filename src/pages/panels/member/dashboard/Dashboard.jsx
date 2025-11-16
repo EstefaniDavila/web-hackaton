@@ -11,39 +11,28 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-  try {
-    const generalRes = await fetch(
-      "https://johnnie-unlabouring-intriguingly.ngrok-free.dev/api/v1/admin/posts",
-      {
-        headers: { "ngrok-skip-browser-warning": "true" }
+      try {
+        const generalRes = await fetch(
+          "https://johnnie-unlabouring-intriguingly.ngrok-free.dev/api/v1/admin/posts",
+          { headers: { "ngrok-skip-browser-warning": "true" } }
+        );
+
+        const politicalRes = await fetch(
+          "https://johnnie-unlabouring-intriguingly.ngrok-free.dev/api/v1/admin/posts/political",
+          { headers: { "ngrok-skip-browser-warning": "true" } }
+        );
+
+        const generalData = await generalRes.json();
+        const politicalData = await politicalRes.json();
+
+        setGeneralNews(generalData.filter(n => n.political_party_id === null));
+        setPoliticalNews(politicalData);
+
+        setLoading(false);
+      } catch (err) {
+        console.error("Error obteniendo noticias:", err);
       }
-    );
-
-    const politicalRes = await fetch(
-      "https://johnnie-unlabouring-intriguingly.ngrok-free.dev/api/v1/admin/posts/political",
-      {
-        headers: { "ngrok-skip-browser-warning": "true" }
-      }
-    );
-
-    const generalData = await generalRes.json();
-    const politicalData = await politicalRes.json();
-
-    // ✔ Corrección basada en political_party_id
-    setGeneralNews(
-      generalData.filter(n => n.political_party_id === null)
-    );
-
-    setPoliticalNews(
-      politicalData // ya están filtradas por el backend
-    );
-
-    setLoading(false);
-  } catch (err) {
-    console.error("Error obteniendo noticias:", err);
-  }
-};
-
+    };
 
     fetchNews();
   }, []);
@@ -51,22 +40,22 @@ const Dashboard = () => {
   if (loading) return <p className="p-6 text-lg">Cargando noticias...</p>;
 
   return (
-    <div className="space-y-10 p-6 w-full">
-      
+    <div className="space-y-10 p-4 sm:p-6 w-full">
+
       {/* HERO */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative w-full h-56 md:h-72 rounded-2xl overflow-hidden shadow-xl"
+        className="relative w-full h-48 sm:h-64 md:h-80 rounded-2xl overflow-hidden shadow-xl"
       >
         <img
           src="https://www.celag.org/wp-content/uploads/2018/10/PORTADA-PERU%CC%81.jpg"
           className="object-cover w-full h-full brightness-75"
         />
 
-        <div className="absolute inset-0 flex flex-col justify-center px-8 text-white">
-          <h1 className="text-3xl md:text-4xl font-bold drop-shadow-lg">
+        <div className="absolute inset-0 flex flex-col justify-center px-4 sm:px-8 text-white">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold drop-shadow-lg">
             ELECCIONES 2026
           </h1>
 
@@ -75,9 +64,9 @@ const Dashboard = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full flex justify-center mt-4"
+            className="w-full flex justify-center mt-3 sm:mt-4"
           >
-            <div className="p-4 rounded-2xl shadow-md border bg-white/20 backdrop-blur max-w-lg w-full">
+            <div className="p-3 sm:p-4 rounded-2xl shadow-md border bg-white/20 backdrop-blur max-w-md w-full">
               <BeautifulCountdown />
             </div>
           </motion.div>
@@ -87,8 +76,11 @@ const Dashboard = () => {
       <Separator className="my-4" />
 
       {/* NOTICIAS GENERALES */}
-      <h2 className="text-2xl font-bold text-gray-800 ml-1">Noticias Generales</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 ml-1">
+        Noticias Generales
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {generalNews.map((item, index) => (
           <motion.div
             key={item.id}
@@ -96,7 +88,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <Card className="bg-yellow-300 bg-opacity-25 rounded-2xl shadow-lg hover:shadow-2xl transition-all">
+            <Card className="bg-yellow-300 bg-opacity-25 rounded-2xl shadow-lg hover:shadow-2xl transition-all h-full">
               <CardHeader>
                 <CardTitle>{item.title}</CardTitle>
               </CardHeader>
@@ -114,8 +106,11 @@ const Dashboard = () => {
       <Separator className="my-6" />
 
       {/* NOTICIAS DE PARTIDOS */}
-      <h2 className="text-2xl font-bold text-gray-800 ml-1">Noticias de Partidos Políticos</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 ml-1">
+        Noticias de Partidos Políticos
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {politicalNews.map((item, index) => (
           <motion.div
             key={item.id}
@@ -123,7 +118,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.15 }}
           >
-            <Card className="bg-blue-200 bg-opacity-25 rounded-2xl shadow-lg hover:shadow-2xl transition-all">
+            <Card className="bg-blue-200 bg-opacity-25 rounded-2xl shadow-lg hover:shadow-2xl transition-all h-full">
               <CardHeader>
                 <CardTitle>
                   {item.title}

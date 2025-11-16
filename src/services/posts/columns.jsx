@@ -27,7 +27,7 @@ const columns = (handleDelete, handleUpdate, handleShow) => [
           onClick={() => handleShow(row?.original, 'show')}
         />
         <GeneralTooltip
-          content="Editar Partido"
+          content="Editar Publicación"
           triggerContent={
             <span className="bg-yellow-500 text-white rounded-full p-1 cursor-pointer">
               <TbEdit size={20} />
@@ -37,7 +37,7 @@ const columns = (handleDelete, handleUpdate, handleShow) => [
         />
 
         <GeneralTooltip
-          content="Eliminar Partido"
+          content="Eliminar Publicación"
           triggerContent={
             <span className="bg-red-500 text-white rounded-full p-1 cursor-pointer">
               <TbTrash size={20} />

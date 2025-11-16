@@ -21,6 +21,10 @@ const adminRoutes = [
             errorElement: <GeneralError />,
           }, 
           {
+            path: 'Publicaciones',lazy: async () => ({ Component: (await import('../pages/panels/admin/posts/Post')).default }),
+            errorElement: <GeneralError />,
+          },
+          {
             path: 'Eventos',lazy: async () => ({ Component: (await import('../pages/panels/admin/events/events')).default }),
             errorElement: <GeneralError />,
           },  

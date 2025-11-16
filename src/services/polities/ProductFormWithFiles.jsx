@@ -108,7 +108,7 @@ const ProductFormMultiStep = ({ isOpen, onOpenChange, initialData, onSave, onCha
                     <SelectContent className="font-normal">
                       {selectOptions.map((option) => (
                         <SelectItem
-                          key={option.value || option.id}
+                          key={option.value || option.id || null}
                           value={option.value || option.id}
                           className="font-normal"
                         >

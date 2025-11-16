@@ -47,6 +47,7 @@ const DataTable = ({ columns, data, fetchData, pagination, setPagination, search
     status_web: 'Estado Web',
     category_name: 'Categoria',
     provider_name: 'Proveedor',
+    title: 'Título',
   };
 
   const table = useReactTable({

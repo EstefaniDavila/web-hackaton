@@ -3,30 +3,30 @@ import ProductFormMultiStep from "@/services/polities/ProductFormWithFiles"
 import { usePolitiesSteps } from "../hooks/usePolitiesSteps" 
 import useEntityMutation from "@/hooks/useEntityMutation"
 
-const SheetUpdatePolities = ({ isOpen, handleClose, typeModal, reload, options, product }) => {
+const SheetUpdatePolities = ({ isOpen, handleClose, typeModal, reload, options, polity }) => {
 
-  const { steps, initialDataPolities } = usePolitiesSteps()
+  const { steps, initialDataPolitical_parties } = usePolitiesSteps()
 
   // Fusiona datos iniciales con lo que trae el partido prueb
   const mergedData = useMemo(() => {
-    if (!product) return initialDataPolities
+    if (!polity) return initialDataPolitical_parties
     return Object.fromEntries(
-      Object.entries(initialDataPolities).map(([key, value]) => [
+      Object.entries(initialDataPolitical_parties).map(([key, value]) => [
         key,
-        product[key] !== undefined && product[key] !== null ? product[key] : value,
+        polity[key] !== undefined && polity[key] !== null ? polity[key] : value,
       ])
     )
-  }, [initialDataPolities, product])
+  }, [initialDataPolitical_parties, polity])
 
-  const mutation = useEntityMutation({ entityName: 'political_parties' })
+  const mutation = useEntityMutation({ entityName: 'political_party' })
 
   const handleSubmit = async (formData) => {
     mutation.mutate(
       {
         action: 'update',
         entity: formData,
-        id: product.id,
-        endpoint: `api/v1/admin/political_parties/${product.id}`
+        id: polity.id,
+        endpoint: `/api/v1/admin/political_parties/${polity.id}/update`
       },
       {
         onSuccess: () => {
@@ -41,7 +41,7 @@ const SheetUpdatePolities = ({ isOpen, handleClose, typeModal, reload, options, 
     <ProductFormMultiStep
       isOpen={isOpen}
       onOpenChange={handleClose}
-      initialData={mergedData}
+      initialData={mergedData || {}}
       onSave={handleSubmit}
       steps={steps}
       options={options}

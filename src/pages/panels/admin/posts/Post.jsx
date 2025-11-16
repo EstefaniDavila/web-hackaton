@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button'
 import { TbPlus } from 'react-icons/tb' 
 
 import useFetchPosts from '@/composables/posts/hooks/useFetchPosts'
-// import TablePolities from '@/composables/polities/tables/GeneralPolities'
+import TablePosts from '@/composables/posts/table/GeneralPosts'
 
+import ModalNewPost from '@/composables/posts/modals/modalNewPost'
 // import SheetNewPolities from '@/composables/polities/modals/SheetNewPolities'
 // import SheetShowPolities from '@/composables/polities/modals/SheetShowPolities'
 // import SheetUpdatePolities from '@/composables/polities/modals/SheetUpdatePolities'
@@ -22,7 +23,7 @@ const Post = () => {
 
   const [search, setSearch] = useState("")
   const [searchFields, setSearchFields] = useState([
-    "title,content"
+    "tittle,content"
   ])
 
   const searchParams = { search, fields: searchFields.join(',') }
@@ -39,13 +40,13 @@ const Post = () => {
   const handleOpenModal = (type, data = null) => {
     setIsModalOpen(true)
     setTypeModal(type)
-    setPolity(data)
+    setPost(data)
   }
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setTypeModal("")
-    setPolity(null)
+    setPost(null)
   }
 
   return (
@@ -65,12 +66,12 @@ const Post = () => {
           </Button>
         </CardContent>
 
-        {/* <TablePolities
+        <TablePosts
           handleOpenModal={handleOpenModal}
-          fetchData={refetchPolitical_parties}
-          data={Political_partiesData?.rows || []}
+          fetchData={refetchPosts}
+          data={PostsData?.rows || []}
           pagination={pagination}
-          setPolitical_parties={setPolity}
+          setPost={setPost}
           setTypeModal={setTypeModal}
           setPagination={setPagination}
           totalPages={totalPages}
@@ -78,19 +79,19 @@ const Post = () => {
           setSearch={setSearch}
           searchFields={searchFields}
           setSearchFields={setSearchFields}
-        /> */}
+        />
       </Card>
 
-      {/* {typeModal === "new" && (
-        <SheetNewPolities
+      {typeModal === "new" && (
+        <ModalNewPost
           isOpen={isModalOpen}
           handleClose={handleCloseModal}
           typeModal={typeModal}
-          reload={refetchPolitical_parties}
+          fetchData={refetchPosts}
         />
       )}
 
-      {typeModal === "edit" && (
+      {/* {typeModal === "edit" && (
         <SheetUpdatePolities
           isOpen={isModalOpen}
           handleClose={handleCloseModal}

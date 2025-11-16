@@ -17,7 +17,15 @@ const columns = (handleDelete, handleUpdate, handleShow) => [
     header: "Acciones",
     cell: ({ row }) => (
       <div className="flex space-x-4">
-
+        <GeneralTooltip
+          content="Visualizar Publicación"
+          triggerContent={
+            <span className="bg-green-500 text-white rounded-full p-1">
+              <FaBoxOpen size={20}/>
+            </span>
+          }
+          onClick={() => handleShow(row?.original, 'show')}
+        />
         <GeneralTooltip
           content="Editar Partido"
           triggerContent={

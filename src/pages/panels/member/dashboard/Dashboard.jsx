@@ -6,6 +6,25 @@ import { CalendarDays, MapPin, Bell } from "lucide-react";
 import BeautifulCountdown from "./BeautifulCountdown";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 
+const news = [
+  {
+    title: 'Keiko se fuga con todo dinero',
+    img: 'https://www.politicaexterior.com/wp-content/uploads/venezuela_elecciones-mayo-2018-960x640.jpg',
+    descripcion: 'la candidata a la presidencia se escapa del pais con dinero recolectado de lavado de activos',
+  },
+  {
+    title: 'Keiko se fuga con todo dinero',
+    img: 'https://www.politicaexterior.com/wp-content/uploads/venezuela_elecciones-mayo-2018-960x640.jpg',
+    descripcion: 'la candidata a la presidencia se escapa del pais con dinero recolectado de lavado de activos',
+  },
+  {
+    title: 'Keiko se fuga con todo dinero',
+    img: 'https://www.politicaexterior.com/wp-content/uploads/venezuela_elecciones-mayo-2018-960x640.jpg',
+    descripcion: 'la candidata a la presidencia se escapa del pais con dinero recolectado de lavado de activos',
+  },
+
+]
+
 const Dashboard = () => {
 
   return (
@@ -46,67 +65,33 @@ const Dashboard = () => {
 
       <Separator className="my-4" />
 
-      {/* CARDS SECTION */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+     {/* CARDS SECTION */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {news.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+            >
+              <Card className="bg-yellow-300 rounded-2xl shadow-lg border-blue-100 hover:shadow-2xl transition-all">
+                <CardHeader className="flex flex-row items-center gap-3">
+                  <CardTitle>{item.title}</CardTitle>
+                </CardHeader>
 
-        {/* Card 1 */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <Card className="rounded-2xl shadow-lg border-blue-100 hover:shadow-2xl transition-all">
-            <CardHeader className="flex flex-row items-center gap-3">
-              <CalendarDays className="text-blue-600 w-7 h-7" />
-              <CardTitle> Keiko Fujimori se fuga </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 text-sm">
-               La candidata se fuga del pais tras revelar<strong>Corrupcion</strong>.
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>
+                <CardContent>
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="w-full h-40 object-cover rounded-xl mb-2"
+                  />
 
-        {/* Card 2 */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <Card className="rounded-2xl shadow-lg border-blue-100 hover:shadow-2xl transition-all">
-            <CardHeader className="flex flex-row items-center gap-3">
-              <MapPin className="text-green-600 w-7 h-7" />
-              <CardTitle> Mi Lugar de Votación </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 text-sm">
-                Verifica tu local de votación y cómo llegar usando geolocalización.
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Card 3 */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <Card className="rounded-2xl shadow-lg border-blue-100 hover:shadow-2xl transition-all">
-            <CardHeader className="flex flex-row items-center gap-3">
-              <Bell className="text-red-600 w-7 h-7" />
-              <CardTitle> Recordatorios </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 text-sm">
-                Recibe alertas sobre capacitaciones y fechas importantes.
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-      </div>
+                  <p className="text-gray-600 text-sm">{item.descripcion}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
 
     </div>
   );

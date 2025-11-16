@@ -58,11 +58,11 @@ const Dashboard = () => {
           <Card className="rounded-2xl shadow-lg border-blue-100 hover:shadow-2xl transition-all">
             <CardHeader className="flex flex-row items-center gap-3">
               <CalendarDays className="text-blue-600 w-7 h-7" />
-              <CardTitle> Elecciones 2026 </CardTitle>
+              <CardTitle> Keiko Fujimori se fuga </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 text-sm">
-                Próximo proceso electoral el <strong>12 de abril</strong>.
+               La candidata se fuga del pais tras revelar<strong>Corrupcion</strong>.
               </p>
             </CardContent>
           </Card>
@@ -107,18 +107,6 @@ const Dashboard = () => {
         </motion.div>
 
       </div>
-
-      {/* CTA */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.35 }}
-        className="flex justify-center"
-      >
-        <Button className="bg-blue-700 text-white px-10 py-6 rounded-xl shadow-md text-lg hover:bg-blue-800 transition-all">
-          Ver información detallada
-        </Button>
-      </motion.div>
 
     </div>
   );

@@ -24,9 +24,6 @@ import { cn } from '@/lib/utils'
 import useCheckActiveNav from './hooks/use-check-active-nav'
 import { ScrollArea } from "@/components/ui/scroll-area"
 
-
-// import { sidelinks } from '@/data/sidelinks'
-
 export default function Nav({
   links,
   isCollapsed,
@@ -66,13 +63,10 @@ export default function Nav({
         )}
       >
         <TooltipProvider delayDuration={0}>
-
           <nav className='grid gap-1 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2'>
             {links.map(renderLink)}
           </nav>
-
         </TooltipProvider>
-
       </div>
     </ScrollArea>
   )
@@ -84,7 +78,7 @@ function NavLink({
   label,
   href,
   closeNav,
-  subLink = false, // Nuevo prop para representar la ruta actual
+  subLink = false,
 }) {
   const { checkActiveNav, pathname } = useCheckActiveNav()
 
@@ -94,20 +88,19 @@ function NavLink({
       onClick={closeNav}
       className={cn(
         buttonVariants({
-          variant: checkActiveNav(href) || pathname === href ? 'secondary' : 'ghost', // Aplica el estilo activo si el href o el pathname coinciden
+          variant: checkActiveNav(href) || pathname === href ? 'secondary' : 'ghost',
           size: 'sm',
         }),
         `h-12 justify-start text-wrap rounded-none px-6`,
         subLink && 'h-10 w-full border-l border-l-slate-500 px-2'
       )}
-      aria-current={(checkActiveNav(href) || pathname === href) ? 'page' : undefined} // Marca como 'page' si el href o el pathname coinciden
+      aria-current={(checkActiveNav(href) || pathname === href) ? 'page' : undefined}
     >
       <div className='mr-2'>{icon}</div>
-      
       {title}
       {label && (
         <div className='ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground'>
-          {label} 
+          {label}
         </div>
       )}
     </Link>
@@ -124,7 +117,6 @@ function NavLinkDropdown({
   const { pathname } = useCheckActiveNav()
   const { checkActiveNav } = useCheckActiveNav()
 
-  // Determina si algún subenlace está activo
   const isChildActive = !!sub?.find((s) => checkActiveNav(s.href))
 
   return (
@@ -147,7 +139,7 @@ function NavLinkDropdown({
             'ml-auto transition-all group-data-[state="open"]:-rotate-180'
           )}
         >
-          <FaAngleDown />
+          <FaAngleDown className="h-4 w-4" />
         </span>
       </CollapsibleTrigger>
       <CollapsibleContent className='collapsibleDropdown' asChild>
@@ -158,8 +150,6 @@ function NavLinkDropdown({
                 {...sublink}
                 subLink
                 closeNav={closeNav}
-                // Pasa el pathname como prop al NavLink
-                pathname={pathname}
               />
             </li>
           ))}
@@ -169,13 +159,14 @@ function NavLinkDropdown({
   )
 }
 
-function NavLinkIcon({ title, icon, label, href }) {
+function NavLinkIcon({ title, icon, label, href, closeNav }) {
   const { checkActiveNav } = useCheckActiveNav()
   return (
     <Tooltip delayDuration={0}>
       <TooltipTrigger asChild>
         <Link
           to={href}
+          onClick={closeNav}
           className={cn(
             buttonVariants({
               variant: checkActiveNav(href) ? 'secondary' : 'ghost',
@@ -203,6 +194,7 @@ function NavLinkIconDropdown({
   icon,
   label,
   sub,
+  closeNav,
 }) {
   const { checkActiveNav } = useCheckActiveNav()
 
@@ -223,14 +215,11 @@ function NavLinkIconDropdown({
           </DropdownMenuTrigger>
         </TooltipTrigger>
         <TooltipContent side='right' className='flex items-center gap-4'>
-          {title}{' '}
+          {title}
           {label && (
             <span className='ml-auto text-muted-foreground'>{label}</span>
           )}
-          <FaAngleDown
-            size={18}
-            className='-rotate-90 text-muted-foreground'
-          />
+          <FaAngleDown className="h-3 w-3 -rotate-90 text-muted-foreground" />
         </TooltipContent>
       </Tooltip>
       <DropdownMenuContent side='right' align='start' sideOffset={4}>
@@ -242,10 +231,12 @@ function NavLinkIconDropdown({
           <DropdownMenuItem key={`${title}-${href}`} asChild>
             <Link
               to={href}
-              className={`${checkActiveNav(href) ? 'bg-secondary' : ''}`}
+              onClick={closeNav}
+              className={`flex items-center w-full ${checkActiveNav(href) ? 'bg-secondary' : ''}`}
             >
-              {icon} <span className='ml-2 max-w-52 text-wrap'>{title}</span>
-              {label && <span className='ml-auto text-xs'>{label}</span>}
+              <span className="mr-2">{icon}</span>
+              <span className='flex-1 max-w-52 text-wrap'>{title}</span>
+              {label && <span className='ml-2 text-xs'>{label}</span>}
             </Link>
           </DropdownMenuItem>
         ))}

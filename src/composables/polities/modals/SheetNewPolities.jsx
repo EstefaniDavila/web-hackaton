@@ -7,7 +7,7 @@ import useCrud from "@/hooks/useCrud"
 
 const SheetNewPolities = ({ isOpen, handleClose, typeModal, reload, options }) => {
   const { steps, initialDataPolitical_parties, loading } = usePolitiesSteps()
-  const mutation = useEntityMutation({entityName: 'political_parties'})
+  const mutation = useEntityMutation({entityName: 'political_party'})
 
   const handleSubmit = async (formData) => {
     mutation.mutate(

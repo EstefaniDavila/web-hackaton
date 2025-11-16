@@ -18,13 +18,13 @@ const TablePolities = ({
   setSearchFields
 }) => {
 
-  const { mutateAsync } = useEntityMutation({ entityName: 'political_parties' })
+  const { mutateAsync } = useEntityMutation({ entityName: 'political_party' })
 
   const handleDelete = async (id) => {
     try {
       await mutateAsync({
         action: 'delete',
-        endpoint: `api/v1/admin/political_parties/${id}`
+        endpoint: `/api/v1/admin/political_parties/${id}`
       })
       fetchData()  
     } catch (error) {

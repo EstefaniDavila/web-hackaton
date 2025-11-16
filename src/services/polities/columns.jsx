@@ -4,6 +4,8 @@ import GeneralTooltip from "@/helpers/generalTooltip"
 import { TbEdit, TbTrash } from "react-icons/tb"
 import { FaBoxOpen } from "react-icons/fa"
 
+const backend_host = import.meta.env.VITE_BACKEND_HOST
+
 // Colores para estados
 const typeColorVariants = {
   inactive: "bg-gray-200 text-gray-800",
@@ -11,6 +13,11 @@ const typeColorVariants = {
   paused: "bg-yellow-200 text-yellow-800",
   hidden: "bg-red-200 text-red-800",
   visible: "bg-blue-200 text-blue-800",
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toISOString().slice(0, 10); // "YYYY-MM-DD"
 }
 
 // Helper para badges más limpios
@@ -36,9 +43,9 @@ const columns = (handleDelete, handleUpdate, handleShow) => [
     cell: (info) => info.getValue(),
   },
   {
-    accessorKey: "Created",
+    accessorKey: "created_at",
     header: "Creación",
-    cell: (info) => info.getValue(),
+    cell: (info) => formatDate(info.getValue()),
   },
   {
     accessorKey: "acronym",
@@ -70,14 +77,14 @@ const columns = (handleDelete, handleUpdate, handleShow) => [
     },
   },
   {
-    accessorKey: "plan_pdf",
+    accessorKey: "plan_pdf_url",
     header: "Plan (PDF)",
     cell: (info) => {
       const value = info.getValue()
 
       return value ? (
         <a
-          href={value}
+          href={`${backend_host}${value}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-green-600 hover:underline"
@@ -93,15 +100,6 @@ const columns = (handleDelete, handleUpdate, handleShow) => [
     header: "Acciones",
     cell: ({ row }) => (
       <div className="flex space-x-4">
-        <GeneralTooltip
-          content="Visualizar Partido"
-          triggerContent={
-            <span className="bg-green-500 text-white rounded-full p-1 cursor-pointer">
-              <FaBoxOpen size={20} />
-            </span>
-          }
-          onClick={() => handleShow(row.original, "show")}
-        />
 
         <GeneralTooltip
           content="Editar Partido"

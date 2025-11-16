@@ -42,7 +42,7 @@ export default function BeautifulCountdown() {
 
   return (
     <div className="w-full flex flex-col items-center gap-4">
-      <h2 className="font-semibold text-lg">Faltan:</h2>
+      <h2 className="font-semibold text-lg">LAS ELECCIONES SERAN EN:</h2>
 
       <div className="flex gap-4">
         

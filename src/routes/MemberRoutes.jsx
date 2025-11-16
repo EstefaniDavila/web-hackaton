@@ -17,9 +17,14 @@ const memberRoutes = [
         children: [
           { index: true, lazy: async () => ({ Component: (await import('./../pages/panels/member/dashboard/Dashboard')).default }) },
            {
-              path: 'Candidatos',lazy: async () => ({ Component: (await import('../pages/panels/member/candidant/politicalPartie')).default }),
+              path: 'candidatos',lazy: async () => ({ Component: (await import('../pages/panels/member/candidant/candidant')).default }),
               errorElement: <GeneralError />,
             }, 
+            {
+              path: 'candidatos/:id',
+              lazy: async () => ({ Component: (await import('../pages/panels/member/candidant/politicalPartie')).default }),
+              errorElement: <GeneralError />,
+            },
             {
               path: 'Calendario',lazy: async () => ({ Component: (await import('../pages/panels/member/Events/events')).default }),
               errorElement: <GeneralError />,

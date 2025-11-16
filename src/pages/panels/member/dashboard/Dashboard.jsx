@@ -3,13 +3,15 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { CalendarDays, MapPin, Bell } from "lucide-react";
+import BeautifulCountdown from "./BeautifulCountdown";
+import { Separator } from "@radix-ui/react-dropdown-menu";
 
 const Dashboard = () => {
-  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   return (
     <div className="space-y-10 p-6 w-full">
-      {/* HERO SECTION */}
+
+            {/* HERO SECTION */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -22,15 +24,31 @@ const Dashboard = () => {
         />
 
         <div className="absolute inset-0 flex flex-col justify-center px-8 text-white">
-          <h1 className="text-3xl md:text-4xl font-bold drop-shadow-lg">Bienvenido</h1>
+          <h1 className="text-3xl md:text-4xl font-bold drop-shadow-lg">ELECCIONES 2026</h1>
           <p className="text-lg mt-2 font-medium drop-shadow-md">
-            Voto informado por un país seguro 🇵🇪
+            PARTICIPA
+            DECIDE
+            VOTA
           </p>
+          {/* COUNTDOWN ARRIBA DEL HERO */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full flex justify-center mb-2"
+        >
+          <div className=" p-4 rounded-2xl shadow-md border max-w-lg w-full">
+            <BeautifulCountdown />
+          </div>
+      </motion.div>
         </div>
       </motion.div>
 
+      <Separator className="my-4" />
+
       {/* CARDS SECTION */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
         {/* Card 1 */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -45,7 +63,6 @@ const Dashboard = () => {
             <CardContent>
               <p className="text-gray-600 text-sm">
                 Próximo proceso electoral el <strong>12 de abril</strong>.
-                Consulta información oficial y mantente preparado.
               </p>
             </CardContent>
           </Card>
@@ -83,14 +100,15 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 text-sm">
-                Recibe alertas sobre capacitaciones, fechas importantes y documentos.
+                Recibe alertas sobre capacitaciones y fechas importantes.
               </p>
             </CardContent>
           </Card>
         </motion.div>
+
       </div>
 
-      {/* CTA / Botón */}
+      {/* CTA */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -101,6 +119,7 @@ const Dashboard = () => {
           Ver información detallada
         </Button>
       </motion.div>
+
     </div>
   );
 };

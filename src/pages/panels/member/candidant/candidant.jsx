@@ -9,50 +9,14 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { useNavigate } from 'react-router-dom';
+import {political_parties} from "./partiesData.js"
 
-// Lista de partidos políticos
-const political_parties = [
-  {
-    nombre: 'Somos Perú',
-    description: 'Somos un partido muy bonito.',
-    logo: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Logo_Partido_Democr%C3%A1tico_Somos_Per%C3%BA.svg",
-    fecha: "15/03/1997"
-  },
-  {
-    nombre: 'Partido Morado',
-    description: 'Partido moderno con visión de futuro.',
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPoBJlOyEu_u1rIl395cSbolf27Ym-iYaIXA&s",
-    fecha: "10/12/2016"
-  },
-  {
-    nombre: 'Acción Popular',
-    description: 'Tradición democrática y social.',
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Acci%C3%B3n_Popular.svg/1200px-Acci%C3%B3n_Popular.svg.png",
-    fecha: "07/07/1956"
-  },
-  {
-    nombre: 'Somos Perú',
-    description: 'Somos un partido muy bonito.',
-    logo: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Logo_Partido_Democr%C3%A1tico_Somos_Per%C3%BA.svg",
-    fecha: "15/03/1997"
-  },
-  {
-    nombre: 'Partido Morado',
-    description: 'Partido moderno con visión de futuro.',
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPoBJlOyEu_u1rIl395cSbolf27Ym-iYaIXA&s",
-    fecha: "10/12/2016"
-  },
-  {
-    nombre: 'Acción Popular',
-    description: 'Tradición democrática y social.',
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Acci%C3%B3n_Popular.svg/1200px-Acci%C3%B3n_Popular.svg.png",
-    fecha: "07/07/1956"
-  },
-]
 
 const Candidant = () => {
 
   const [search, setSearch] = useState("")
+  const navigate = useNavigate();
 
   // Filtrar partidos según la búsqueda
   const filteredParties = political_parties.filter(p => 
@@ -88,7 +52,7 @@ const Candidant = () => {
                 {party.nombre}
               </CardTitle>
               <CardDescription>
-                {party.description}
+                {party.descripcion}
               </CardDescription>
             </CardHeader>
 
@@ -108,7 +72,8 @@ const Candidant = () => {
             </CardContent>
 
             <CardFooter className="mt-4">
-              <Button className="w-full font-semibold">
+              <Button className="w-full font-semibold" 
+              onClick={() => navigate(`/candidatos/${party.id}`)} >
                 Ver más
               </Button>
             </CardFooter>

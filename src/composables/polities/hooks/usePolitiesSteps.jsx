@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useFetchSelectMembers from '@/composables/members/hooks/useFetchSelectMembers';
 
 export const usePolitiesSteps = () => {
   const [pagination, setPagination] = useState({
@@ -6,7 +7,7 @@ export const usePolitiesSteps = () => {
     pageSize: 10 
   })
   const [search, setSearch] = useState("")
-  // const { data: members } = useFetchMembers(pagination, search)
+  const { data: members } = useFetchSelectMembers(pagination, search)
 //teps
   const steps = [
     {
@@ -42,13 +43,11 @@ export const usePolitiesSteps = () => {
           label: 'Presidente:',
           type: 'select',
           required: true,
-          options: [
-              { value: "2525bc4c-5076-44a1-80d2-ff5b194c87cd", label: 'El presi fake xd' },
-            // members?.rows?.map((mem) => ({
-            //   value: mem.id,
-            //   label: mem.full_name,
-            // })) || [],
-            ],
+          options: 
+            members?.map((mem) => ({
+              value: mem.id,
+              label: mem.full_name,
+            })) || [],
         },
 
         { id: 'founded_at', label: 'Fecha de Fundación:', type: 'date', required: true },

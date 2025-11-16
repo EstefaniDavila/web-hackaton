@@ -4,13 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CalendarIcon, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-
 const parseLocalDate = (dateStr) => {
-  const [year, month, day] = dateStr.split("-").map(Number);
-  return new Date(year, month - 1, day); 
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(y, m - 1, d);
 };
 
-// Lista de eventos con fechas locales
 const initialEvents = [
   { name: "Elecciones hoy", date: parseLocalDate("2025-11-18"), place: "Lugar de Votación" },
   { name: "Elecciones hoy", date: parseLocalDate("2026-03-17"), place: "Lugar de Votación" },
@@ -19,54 +17,51 @@ const initialEvents = [
 
 export default function MeetingsCalendar() {
   const [date, setDate] = useState(new Date());
-  const [events, setEvents] = useState(initialEvents);
+  const [events] = useState(initialEvents);
 
-  // Función para saber si un evento está cerca (3 días antes)
   const isNearEvent = (eventDate) => {
     const today = new Date();
-    // Solo fecha, sin tiempo
     const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const diffTime = eventDate - todayLocal;
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
-
-    return diffDays >= 0 && diffDays <= 3;
+    const diff = (eventDate - todayLocal) / (1000 * 60 * 60 * 24);
+    return diff >= 0 && diff <= 3;
   };
 
-  // Fechas del calendario con eventos
   const eventDates = events.map((e) => e.date);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 text-white min-h-screen">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 py-6 w-full min-h-[85vh] place-items-start ">
+
       {/* IZQUIERDA */}
-      <div>
-        <h2 className="text-xl font-semibold mb-6 text-black">
+      <div className="w-full max-w-xl">
+        <h2 className="text-center text-4xl font-extrabold mb-6 text-gray-800">
           Próximos Eventos
         </h2>
 
-        <div className="space-y-6">
+        <div className="space-y-2">
           {events.map((m, i) => {
             const near = isNearEvent(m.date);
 
             return (
               <Card
                 key={i}
+                onClick={() => setDate(m.date)} // 👈 Al hacer clic, mueve el calendario
                 className={cn(
-                  "border-none text-white transition-all",
-                  near ? "bg-red-700 shadow-lg shadow-red-400" : "bg-[#1e293b]"
+                  "cursor-pointer transition-all duration-300 shadow-md hover:shadow-xl border-none",
+                  near ? "bg-yellow-100" : "bg-white"
                 )}
               >
                 <CardContent className="flex gap-4 p-5">
                   <div className="flex-1 space-y-1">
-                    <p className="font-semibold">{m.name}</p>
+                    <p className="font-bold text-gray-900 text-xl">{m.name}</p>
 
-                    <div className="flex items-center text-gray-300 gap-2 text-sm">
-                      <CalendarIcon size={15} />
-                      <span>{m.date.toLocaleDateString()}</span>
+                    <div className="flex items-center gap-2 text-gray-700">
+                      <CalendarIcon size={18} />
+                      <span className="text-lg">{m.date.toLocaleDateString()}</span>
                     </div>
 
-                    <div className="flex items-center text-gray-400 gap-2 text-sm">
-                      <MapPin size={15} />
-                      <span>{m.place}</span>
+                    <div className="flex items-center gap-2 text-gray-700">
+                      <MapPin size={18} />
+                      <span className="text-lg">{m.place}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -76,21 +71,21 @@ export default function MeetingsCalendar() {
         </div>
       </div>
 
-      {/* DERECHA */}
-      <div className="flex flex-col items-center gap-6">
-        <Card className="bg-[#1e293b] border-none text-white p-4">
+      {/* DERECHA — CALENDARIO CENTRADO Y MÁS GRANDE */}
+      <div className="flex flex-col items-center justify-center w-full">
+        <Card className="bg-white border-none shadow-lg m-10 w-fit scale-110">
           <Calendar
             mode="single"
             selected={date}
             onSelect={setDate}
             modifiers={{
-              event: eventDates, // ya son objetos Date locales
+              event: eventDates,
             }}
             modifiersStyles={{
               event: {
-                backgroundColor: "#facc15", // amarillo
+                backgroundColor: "#facc15",
                 color: "black",
-                borderRadius: "8px",
+                borderRadius: "6px",
               },
             }}
           />

@@ -1,6 +1,7 @@
 import React, { lazy } from 'react'
 import GeneralError from '@/pages/general/errors/general-error'
 import PrivateRoute from './../utils/PrivateRoutes'
+import RoleRoute from "./RoleRoute";
 
 const memberRoutes = [
   {
@@ -30,13 +31,24 @@ const memberRoutes = [
               errorElement: <GeneralError />,
             },
             {
-              path: 'Votaciones',lazy: async () => ({ Component: (await import('../pages/panels/member/vote/Vote')).default }),
+              path: 'dondevotar',lazy: async () => ({ Component: (await import('../pages/panels/member/vote/Vote')).default }),
               errorElement: <GeneralError />,
             },
              {
-              path: 'miembro',lazy: async () => ({ Component: (await import('../pages/panels/member/tablemember/Tablemember')).default }),
+              path: 'sufragio',lazy: async () => ({ Component: (await import('../pages/panels/member/sufragio/Sufragio')).default }),
               errorElement: <GeneralError />,
-            },   
+            },
+            {
+            element: <RoleRoute allowedRoles={["mesa_member"]} />,
+            children: [
+              {
+                path: "miembro",
+                lazy: async () => ({
+                  Component: (await import('../pages/panels/member/tablemember/Tablemember')).default
+                })
+              }
+            ]
+          },   
           {
             path: 'ajustes',
             lazy: async () => ({ Component: (await import('../pages/general/settings')).default }),

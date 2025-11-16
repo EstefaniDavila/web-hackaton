@@ -91,7 +91,7 @@ const Candidant = () => {
             <CardFooter className="mt-4">
               <Button
                 className="w-full font-semibold"
-                onClick={() => navigate(`/candidatos/${party.id}`)}
+                onClick={() => navigate(`/candidatos/${party.id}`,{state:party})}
               >
                 Ver más
               </Button>

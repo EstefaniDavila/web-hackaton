@@ -5,6 +5,8 @@ import {
   TbCalendar,
 } from "react-icons/tb"
 import { MdOutlineHowToVote } from "react-icons/md";
+import { GrMapLocation } from "react-icons/gr";
+
 
 export const memberLinks = [
   {
@@ -26,9 +28,15 @@ export const memberLinks = [
     icon: <TbCalendar size={18} />,
   },
   {
+    title: 'Donde Votar',
+    label: '',
+    href: '/dondevotar',
+    icon: <GrMapLocation size={18} />,
+  },
+  {
     title: 'Votaciones',
     label: '',
-    href: '/votaciones',
+    href: '/sufragio',
     icon: <MdOutlineHowToVote size={18} />,
   },
   {

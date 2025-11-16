@@ -10,46 +10,61 @@ export default function MeetingsCalendar() {
   const [loading, setLoading] = useState(true);
 
   // Leer usuario desde localStorage
-  const user = JSON.parse(localStorage.getItem("current_user"));
-  const isMesaMember = user?.member_role === "mesa_member";
+  const storedUser = localStorage.getItem("user");
+const user = storedUser ? JSON.parse(storedUser) : null;
+const memberRole = user?.member_role;
+console.log(user,"fjffff");
+if (!memberRole) {
+  console.warn("No se detectó member_role en localStorage");
+}
+
 
   useEffect(() => {
     const fetchEvents = async () => {
+      if (!memberRole) {
+        console.warn("No se detectó member_role en localStorage");
+        setLoading(false);
+        return;
+      }
+
+      const url =
+        memberRole === "mesa_member"
+          ? "https://johnnie-unlabouring-intriguingly.ngrok-free.dev/api/v1/member/events/general"
+          : memberRole === "citizen"
+          ? "https://johnnie-unlabouring-intriguingly.ngrok-free.dev/api/v1/member/events/normal"
+          : null;
+
+          console.log(url)
+
+      if (!url) {
+        console.warn(`Rol no reconocido: ${memberRole}`);
+        setLoading(false);
+        return;
+      }
+
       try {
-        const res = await fetch(
-          "https://johnnie-unlabouring-intriguingly.ngrok-free.dev/api/v1/events",
-          {
-            headers: {
-              "ngrok-skip-browser-warning": "1",
-            },
-          }
-        );
+        const res = await fetch(url, {
+          headers: { "ngrok-skip-browser-warning": "1" },
+        });
 
         const data = await res.json();
+        console.log(data);
 
-        // Convertir fecha ISO → objeto Date
         const parsed = data.map((e) => ({
           ...e,
           date: new Date(e.date),
         }));
 
-        // FILTRO según type_member
-        const filtered = parsed.filter((evt) => {
-          if (evt.type_member === 0) return true; // Todos
-          if (evt.type_member === 1 && isMesaMember) return true; // Solo mesa
-          return false;
-        });
-
-        setEvents(filtered);
+        setEvents(parsed);
       } catch (err) {
-        console.log("Error cargando eventos", err);
+        console.error("Error cargando eventos:", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvents();
-  }, [isMesaMember]);
+  }, [memberRole]);
 
   if (loading) return <p className="p-6">Cargando eventos…</p>;
 
@@ -63,8 +78,7 @@ export default function MeetingsCalendar() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 py-6 w-full min-h-[85vh] place-items-start ">
-      
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 py-6 w-full min-h-[85vh] place-items-start">
       {/* LISTA IZQUIERDA */}
       <div className="w-full max-w-xl">
         <h2 className="text-center text-4xl font-extrabold mb-6 text-gray-800">
@@ -116,9 +130,7 @@ export default function MeetingsCalendar() {
             mode="single"
             selected={date}
             onSelect={setDate}
-            modifiers={{
-              event: eventDates,
-            }}
+            modifiers={{ event: eventDates }}
             modifiersStyles={{
               event: {
                 backgroundColor: "#facc15",

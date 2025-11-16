@@ -27,7 +27,15 @@ const steps2 = [
   "Indicar donde firmar y poner huella en lista de electores",
   "Pedir al elector que recoga su DNI de la bandeja"
 ];
-
+const steps3 = [
+  "Se solicita al elector el DNI y dejar en una bandeja",
+  "Se solicita numero de orden y datos personales",
+  "Entrega al elector de cedula doblada y firmada",
+  "Asegurarse que la electora vaya sin compañia a la camara secreta",
+  "Indicar colocar cedula en la anfora",
+  "Indicar donde firmar y poner huella en lista de electores",
+  "Pedir al elector que recoga su DNI de la bandeja"
+];
 const Tablemember = () => {
   return (
     <div className="space-y-10">
@@ -184,6 +192,45 @@ const Tablemember = () => {
           />
         </motion.div>
 
+
+
+    </div>
+
+     {/* STEPS CARD */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Card className="bg-opacity-50 rounded-2xl shadow-lg border border-gray-100">
+            <CardHeader>
+              <CardTitle className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                Pasos para la Instalación
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              <div className="space-y-3">
+                {steps3.map((step3, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="flex gap-3 items-start"
+                  >
+                    <span className="scroll-m-20 text-xl font-semibold tracking-tight w-10 h-10 flex items-center justify-center bg-yellow-600  rounded-full  shadow">
+                      {i + 1}
+                    </span>
+                    <p className="text-muted-foreground text-xl">
+                      {step3}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
     </div>
 
 

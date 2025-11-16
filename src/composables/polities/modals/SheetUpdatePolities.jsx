@@ -10,6 +10,8 @@ const SheetUpdatePolities = ({ isOpen, handleClose, typeModal, reload, options, 
   // Fusiona datos iniciales con lo que trae el partido prueb
   const mergedData = useMemo(() => {
     if (!polity) return initialDataPolitical_parties
+    console.log('Polity data:', polity)
+    console.log('initial', initialDataPolitical_parties)
     return Object.fromEntries(
       Object.entries(initialDataPolitical_parties).map(([key, value]) => [
         key,
@@ -26,7 +28,7 @@ const SheetUpdatePolities = ({ isOpen, handleClose, typeModal, reload, options, 
         action: 'update',
         entity: formData,
         id: polity.id,
-        endpoint: `/api/v1/admin/political_parties/${polity.id}/update`
+        endpoint: `api/v1/admin/political_parties/${polity.id}/update`
       },
       {
         onSuccess: () => {
@@ -41,7 +43,7 @@ const SheetUpdatePolities = ({ isOpen, handleClose, typeModal, reload, options, 
     <ProductFormMultiStep
       isOpen={isOpen}
       onOpenChange={handleClose}
-      initialData={mergedData || {}}
+      initialData={mergedData}
       onSave={handleSubmit}
       steps={steps}
       options={options}

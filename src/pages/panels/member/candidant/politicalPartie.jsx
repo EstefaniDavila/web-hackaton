@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { political_parties } from "../candidant/partiesData";
 
-// Simple accordion
 const SimpleAccordionItem = ({ title, children }) => {
   const [open, setOpen] = useState(false);
 
@@ -22,50 +20,56 @@ const SimpleAccordionItem = ({ title, children }) => {
 
 const PoliticalPartie = () => {
   const { id } = useParams();
-
-  // Buscar partido por ID
-  const partido = political_parties.find((p) => p.id === Number(id));
-
-  if (!partido) {
-    return (
-      <p className="text-center mt-10 text-red-500">
-        Partido no encontrado.
-      </p>
-    );
-  }
+  const [loading, setLoading] = useState(true);
+  const [party, setParty] = useState(null);
+  const [candidaturas, setCandidaturas] = useState([]);
 
   const [departamento, setDepartamento] = useState("");
   const [provincia, setProvincia] = useState("");
   const [distrito, setDistrito] = useState("");
 
-  const candidaturasData = partido.otras_candidaturas ?? [];
+  useEffect(() => {
+    fetch(
+      `https://johnnie-unlabouring-intriguingly.ngrok-free.dev/api/v1/member/candidates/all_by_party//${id}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setParty(data);
 
-  // Filtros dinámicos
-  const departamentos = [
-    ...new Set(candidaturasData.map((c) => c.departamento)),
-  ];
+        // UNIFICAR TODAS LAS CANDIDATURAS
+        const all = [];
 
-  const provincias = departamento
-    ? [
-        ...new Set(
-          candidaturasData
-            .filter((c) => c.departamento === departamento)
-            .map((c) => c.provincia)
-        ),
-      ]
-    : [];
+        const sections = ["presidential", "vice_1", "vice_2", "senate"];
 
-  const distritos = provincia
-    ? [
-        ...new Set(
-          candidaturasData
-            .filter((c) => c.provincia === provincia)
-            .map((c) => c.distrito)
-        ),
-      ]
-    : [];
+        sections.forEach((sec) => {
+          if (data[sec]) {
+            data[sec].forEach((cand) =>
+              all.push({
+                ...cand,
+                tipo: sec,
+                departamento: cand.circumscription || "Nacional",
+                provincia: "",
+                distrito: "",
+              })
+            );
+          }
+        });
 
-  const filteredCandidatos = candidaturasData.filter((c) => {
+        setCandidaturas(all);
+      })
+      .catch((e) => console.log("Error cargando partid →", e))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) return <p className="p-6">Cargando...</p>;
+  if (!party) return <p className="p-6 text-red-500">Partido no encontrado.</p>;
+
+  const departamentos = [...new Set(candidaturas.map((c) => c.departamento))];
+
+  const provincias = departamento ? [] : [];
+  const distritos = provincia ? [] : [];
+
+  const filtered = candidaturas.filter((c) => {
     return (
       (!departamento || c.departamento === departamento) &&
       (!provincia || c.provincia === provincia) &&
@@ -79,35 +83,37 @@ const PoliticalPartie = () => {
       {/* ENCABEZADO */}
       <div className="flex items-center gap-4 mb-6">
         <img
-          src={partido.logo}
+          src={party.logo || "/no-logo.png"}
           className="h-20 w-20 rounded-md"
-          alt={partido.nombre}
+          alt={party.name}
         />
         <div>
-          <h1 className="text-3xl font-bold">{partido.nombre}</h1>
-          <p className="text-gray-600">{partido.descripcion}</p>
+          <h1 className="text-3xl font-bold">{party.name}</h1>
+          <p className="text-gray-600">
+            Representante: {party.representative?.full_name || "No registrado"}
+          </p>
+          <p className="text-gray-600">Siglas: {party.acronym}</p>
         </div>
       </div>
 
       {/* PLANCHA PRESIDENCIAL */}
       <SimpleAccordionItem title="Plancha Presidencial">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {partido.plancha.map((miembro, index) => (
+          {party.presidential?.map((m) => (
             <div
-              key={index}
+              key={m.id}
               className="shadow-md border rounded-xl overflow-hidden bg-white"
             >
               <div className="text-center p-4">
-                <h3 className="text-xl font-semibold">{miembro.nombre}</h3>
-                <p className="text-gray-700 font-medium">{miembro.puesto}</p>
-                <p className="text-gray-500 text-sm">
-                  {miembro.descripcion}
+                <h3 className="text-xl font-semibold">{m.full_name}</h3>
+                <p className="text-gray-700 font-medium">
+                  Candidato Presidencial
                 </p>
               </div>
 
               <div className="h-48 flex items-center justify-center bg-gray-100">
                 <img
-                  src={miembro.imagen}
+                  src={m.photo_url || "/no-photo.jpg"}
                   className="h-44 w-44 object-cover rounded-md"
                 />
               </div>
@@ -116,17 +122,8 @@ const PoliticalPartie = () => {
         </div>
       </SimpleAccordionItem>
 
-      {/* PLAN DE GOBIERNO */}
-      <SimpleAccordionItem title="Plan de Gobierno">
-        <p>
-          {partido.plan_gobierno ??
-            "Este partido aún no sube su plan de gobierno."}
-        </p>
-      </SimpleAccordionItem>
-
       {/* OTRAS CANDIDATURAS */}
       <SimpleAccordionItem title="Otras Candidaturas">
-        
         {/* FILTROS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <select
@@ -149,61 +146,47 @@ const PoliticalPartie = () => {
           <select
             className="border p-2 rounded-md"
             value={provincia}
-            onChange={(e) => {
-              setProvincia(e.target.value);
-              setDistrito("");
-            }}
-            disabled={!departamento}
+            disabled
           >
-            <option value="">Provincia</option>
-            {provincias.map((p, i) => (
-              <option key={i} value={p}>
-                {p}
-              </option>
-            ))}
+            <option value="">Provincia (viene después)</option>
           </select>
 
           <select
             className="border p-2 rounded-md"
             value={distrito}
-            onChange={(e) => setDistrito(e.target.value)}
-            disabled={!provincia}
+            disabled
           >
-            <option value="">Distrito</option>
-            {distritos.map((d, i) => (
-              <option key={i} value={d}>
-                {d}
-              </option>
-            ))}
+            <option value="">Distrito (viene después)</option>
           </select>
         </div>
 
-        {/* TARJETAS */}
+        {/* LISTA */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCandidatos.map((cand, i) => (
+          {filtered.map((cand) => (
             <div
-              key={i}
+              key={cand.id}
               className="shadow-md border rounded-xl overflow-hidden bg-white"
             >
               <div className="text-center p-4">
-                <h3 className="text-xl font-semibold">{cand.nombre}</h3>
-                <p className="text-gray-700 font-medium">{cand.puesto}</p>
-                <p className="text-gray-500 text-sm">{cand.descripcion}</p>
-                <p className="text-sm font-semibold text-blue-600">
-                  {cand.tipo}
+                <h3 className="text-xl font-semibold">{cand.full_name}</h3>
+                <p className="text-gray-700 font-medium">
+                  {cand.position_type.toUpperCase()}
+                </p>
+                <p className="text-sm text-blue-600">
+                  {cand.circumscription}
                 </p>
               </div>
 
               <div className="h-48 bg-gray-100 flex items-center justify-center">
                 <img
-                  src={cand.imagen}
+                  src={cand.photo_url || "/no-photo.jpg"}
                   className="h-44 w-44 object-cover rounded-md"
                 />
               </div>
             </div>
           ))}
 
-          {filteredCandidatos.length === 0 && (
+          {filtered.length === 0 && (
             <p className="text-gray-500">No se encontraron candidatos.</p>
           )}
         </div>

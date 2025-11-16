@@ -12,6 +12,7 @@ const useCrud = (endpoint) => {
   const getModel = async (_endpoint = endpoint) => {
     console.log(endpoint)
     try {
+console.log("data", `${backend_host}${_endpoint}`)
 
       const response = await axios.get(`${backend_host}${_endpoint}`)
       return response.data

@@ -45,7 +45,7 @@ const ModalNewPost = ({ isOpen, handleClose, fetchData }) => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium py-2">Descripción</label>
+                <label className="block text-sm font-medium py-2">Descripción de la publicacion</label>
                 <Input
                   type="text"
                   name="body"

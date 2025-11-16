@@ -54,3 +54,9 @@ body, input, select, textarea, label {
 .read-the-docs {
   color: #888;
 }
+
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+

@@ -69,7 +69,7 @@ const Post = () => {
         <TablePosts
           handleOpenModal={handleOpenModal}
           fetchData={refetchPosts}
-          data={PostsData?.rows || []}
+          data={PostsData?.posts || []}
           pagination={pagination}
           setPost={setPost}
           setTypeModal={setTypeModal}
@@ -82,14 +82,12 @@ const Post = () => {
         />
       </Card>
 
-      {typeModal === "new" && (
-        <ModalNewPost
-          isOpen={isModalOpen}
-          handleClose={handleCloseModal}
-          typeModal={typeModal}
-          fetchData={refetchPosts}
-        />
-      )}
+      <ModalNewPost
+  isOpen={typeModal === "new" && isModalOpen}
+  handleClose={handleCloseModal}
+  fetchData={refetchPosts}
+/>
+
 
       {/* {typeModal === "edit" && (
         <SheetUpdatePolities

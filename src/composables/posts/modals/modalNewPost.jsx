@@ -1,76 +1,92 @@
-import React, {useState} from 'react'
-import Modal from '@/components/custom/modal'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 import useEntityMutation from '@/hooks/useEntityMutation'
-import { Input } from '@/components/ui/input'
-import { handleChangeFD, handleFileFD} from '@/services/general/handlers'
 
-const ModalNewPost = ({ isOpen, handleClose, fetchData }) => {
-  const [formData] = useState(() => {
-    const fd = new FormData()
-    return fd;
-  })
-  const [formValues, setFormValues] = useState(formData)
-  const mutation = useEntityMutation({entityName: 'post'})
+export default function ModalNewPost({ isOpen, handleClose, fetchData }) {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [source, setSource] = useState(null);
 
-  const handleSubmit = async() => {
-    mutation.mutate(
-      { action: 'create', entity: formData, endpoint: '/api/v1/admin/posts'},
-      handleClose(),
-    )
-  }
+  const mutation = useEntityMutation({
+    entityName: "post"
+  });
 
-  const onChangeExtra = (name, value) => {
-  }
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("post[title]", title);
+    formData.append("post[body]", body);
+    if (source) {
+      formData.append("post[source]", source);
+    }
+
+    await mutation.mutateAsync({
+      action: "create",
+      endpoint: "/api/v1/admin/posts_new",
+      entity: formData
+    });
+
+    fetchData();
+    handleClose();
+  };
 
   return (
-    <div>
-      {isOpen && (
-        <Modal
-          open={isOpen}
-          setOpen={handleClose}
-          title="Crear Publicacion"
-          description="Rellena el formulario para crear una nueva publicacion."
-          size="md"
-          callBack={handleSubmit}
-        >
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium py-2">Título</label>
-                <Input
-                  type="text"
-                  name="title"
-                  value={formData.tittle}
-                  onChange={(e) => handleChangeFD(e, formData, onChangeExtra)}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium py-2">Descripción de la publicacion</label>
-                <Input
-                  type="text"
-                  name="body"
-                  value={formData.body}
-                  onChange={(e) => handleChangeFD(e, formData, onChangeExtra)}
-                />
-              </div>
-              <div>
-                <label className="block mb-4 font-bold">
-                  Contenido Multimedia
-                  <Input
-                    type="file"
-                    name="source"
-                    accept='image/*'
-                    onChange={(e) => handleFileFD(e, formData, setFormValues)}
-                    className="w-full p-2 mt-1 border rounded font-normal"
-                  />
-                </label>
-              </div>
-            </div>
-          </form>
-        </Modal>
-      )}
-    </div>
-  )
-}
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Crear Nueva Publicación</DialogTitle>
+        </DialogHeader>
 
-export default ModalNewPost
+        <Card className="border-none shadow-none">
+          <CardContent>
+            <div className="flex flex-col gap-6">
+
+              {/* Título */}
+              <div className="grid gap-2">
+                <Label>Título</Label>
+                <Input
+                  type="text"
+                  placeholder="Escribe un título aquí..."
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+
+              {/* Contenido */}
+              <div className="grid gap-2">
+                <Label>Contenido</Label>
+                <Textarea
+                  placeholder="Escribe el contenido aquí..."
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
+                />
+              </div>
+
+              {/* Imagen */}
+              <div className="grid gap-2">
+                <Label>Imagen</Label>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setSource(e.target.files[0])}
+                />
+              </div>
+
+            </div>
+          </CardContent>
+
+          <CardFooter className="flex justify-end">
+            <Button onClick={handleSubmit} className="bg-amberCustom hover:bg-amber-600">
+              Guardar Publicación
+            </Button>
+          </CardFooter>
+        </Card>
+      </DialogContent>
+    </Dialog>
+  );
+}

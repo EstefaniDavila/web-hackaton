@@ -19,7 +19,6 @@ export default function LugarVotacion() {
   const [votingCoords, setVotingCoords] = useState(null);
   const [distance, setDistance] = useState(null);
 
-  // Ubicación del usuario
   const getUserLocation = () => {
     if (!navigator.geolocation) {
       alert("Geolocalización no soportada");
@@ -27,16 +26,12 @@ export default function LugarVotacion() {
     }
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        setUserCoords({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-        });
+        setUserCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude });
       },
       () => alert("No se pudo obtener la ubicación")
     );
   };
 
-  // Buscar dirección con Nominatim
   const searchVotingPlace = async () => {
     if (!votingPlace.trim()) return alert("Ingresa una dirección");
 
@@ -59,7 +54,6 @@ export default function LugarVotacion() {
     }
   };
 
-  // Calcular distancia
   const calculateDistance = (start, end) => {
     const R = 6371;
     const dLat = ((end.lat - start.lat) * Math.PI) / 180;
@@ -75,10 +69,8 @@ export default function LugarVotacion() {
     setDistance((R * c).toFixed(2));
   };
 
-  // Abrir Google Maps
   const openGoogleMaps = () => {
-    if (!userCoords || !votingCoords)
-      return alert("Debes obtener ambas ubicaciones");
+    if (!userCoords || !votingCoords) return alert("Debes obtener ambas ubicaciones");
     window.open(
       `https://www.google.com/maps/dir/${userCoords.lat},${userCoords.lng}/${votingCoords.lat},${votingCoords.lng}`,
       "_blank"
@@ -86,13 +78,13 @@ export default function LugarVotacion() {
   };
 
   return (
-    <div className="text-black text-xl space-y-6">
-      <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance text-indigo-900">
+    <div className="text-black text-xl space-y-6 p-4 sm:p-6 lg:p-10">
+      <h1 className="text-center text-3xl sm:text-4xl font-extrabold tracking-tight text-indigo-900">
         ¿DÓNDE TE TOCA VOTAR?
       </h1>
 
-      {/* Acceso ONPE */}
-      <div className="flex justify-center gap-4 mb-4">
+      {/* Botones ONPE */}
+      <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
         <Button
           onClick={() =>
             window.open(
@@ -100,6 +92,7 @@ export default function LugarVotacion() {
               "_blank"
             )
           }
+          className="w-full sm:w-auto"
         >
           Conoce tu Lugar de Votación
         </Button>
@@ -111,21 +104,22 @@ export default function LugarVotacion() {
               "_blank"
             )
           }
+          className="w-full sm:w-auto"
         >
           Elige tu Lugar de Votación
         </Button>
       </div>
 
-      <div className="flex gap-8">
+      <div className="flex flex-col lg:flex-row gap-8">
         {/* Panel de acciones */}
-        <Card className="flex-1 m-4">
+        <Card className="flex-1 m-2 lg:m-4">
           <CardHeader>
             <CardTitle>¿Cómo llegar a tu lugar de votación?</CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-4">
             <Button
-              className="w-2/3 bg-indigo-600 text-white font-semibold py-3 rounded-full"
+              className="w-full bg-indigo-600 text-white font-semibold py-3 rounded-full"
               onClick={getUserLocation}
             >
               Usar mi ubicación actual
@@ -139,20 +133,18 @@ export default function LugarVotacion() {
             />
 
             <Button
-              className="w-2/3 bg-indigo-600 text-white font-semibold py-3 rounded-full"
+              className="w-full bg-indigo-600 text-white font-semibold py-3 rounded-full"
               onClick={searchVotingPlace}
             >
               Buscar lugar de votación
             </Button>
 
             {distance && (
-              <p className="text-green-600 font-bold">
-                Distancia aproximada: {distance} km
-              </p>
+              <p className="text-green-600 font-bold">Distancia aproximada: {distance} km</p>
             )}
 
             <Button
-              className="w-1/2 bg-green-600 text-white font-semibold py-3 rounded-full"
+              className="w-full sm:w-1/2 bg-green-600 text-white font-semibold py-3 rounded-full"
               onClick={openGoogleMaps}
               disabled={!userCoords || !votingCoords}
             >
@@ -162,19 +154,19 @@ export default function LugarVotacion() {
         </Card>
 
         {/* Mapa */}
-        <div className="flex-1">
+        <div className="flex-1 m-2 lg:m-4">
           {votingCoords ? (
             <MapContainer
               center={votingCoords}
               zoom={16}
               scrollWheelZoom={false}
-              className="h-[450px] rounded-2xl overflow-hidden"
+              className="h-[350px] sm:h-[450px] w-full rounded-2xl overflow-hidden"
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Marker position={votingCoords} icon={markerIcon} />
             </MapContainer>
           ) : (
-            <div className="h-[450px] bg-blue-200 rounded-2xl flex items-center justify-center">
+            <div className="h-[350px] sm:h-[450px] bg-blue-200 rounded-2xl flex items-center justify-center text-center p-4">
               <p>Ingresa y busca tu lugar de votación para mostrar el mapa</p>
             </div>
           )}
